@@ -8,11 +8,11 @@ BASE_DIR = Path(__file__).parent
 # 1. Load saved components
 @st.cache_resource
 def load_models():
-    with open("taxi_price_prediction_ridge_Regression.pkl", "rb") as f:
+    with open(BASE_DIR / "taxi_price_prediction_ridge_Regression.pkl", "rb") as f:
         ridge_model = pickle.load(f)
-    with open("taxi_price_prediction_lasso_Regression.pkl", "rb") as f:
+    with open(BASE_DIR / "taxi_price_prediction_lasso_Regression.pkl", "rb") as f:
         lasso_model = pickle.load(f)
-    with open("scale.pkl", "rb") as f:
+    with open(BASE_DIR / "scale.pkl", "rb") as f:
         scaler = pickle.load(f)
     return ridge_model, lasso_model, scaler
 
