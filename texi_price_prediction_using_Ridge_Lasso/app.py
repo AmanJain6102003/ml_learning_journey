@@ -2,6 +2,8 @@ import streamlit as st
 import pandas as pd
 import pickle
 
+BASE_DIR = Path(__file__).parent 
+
 # 1. Load saved components
 @st.cache_resource
 def load_models():
