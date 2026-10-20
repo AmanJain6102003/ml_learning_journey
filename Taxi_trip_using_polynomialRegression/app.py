@@ -1,17 +1,20 @@
 import streamlit as st
 import pandas as pd
 import pickle
+from pathlib import Path
+
+BASE_DIR = Path(__file__).parent 
 
 st.set_page_config(page_title="Taxi Trip Price Predictor", page_icon="🚕", layout="centered")
 
 # ---------- Load saved objects ----------
 @st.cache_resource
 def load_artifacts():
-    with open("Scaler.pkl", "rb") as f:
+    with open(BASE_DIR / "Scaler.pkl", "rb") as f:
         scaler = pickle.load(f)
-    with open("poly_transformer.pkl", "rb") as f:
+    with open(BASE_DIR / "poly_transformer.pkl", "rb") as f:
         poly = pickle.load(f)
-    with open("taxi_trip_polynomial.pkl", "rb") as f:
+    with open(BASE_DIR / "taxi_trip_polynomial.pkl", "rb") as f:
         model = pickle.load(f)
     return scaler, poly, model
 
