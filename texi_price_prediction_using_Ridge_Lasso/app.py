@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import pickle
+from pathlib import Path
 
 BASE_DIR = Path(__file__).parent 
 
