@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import pickle
+import os  # Added to resolve working directory path issues
 
 st.set_page_config(page_title="Delivery Time Predictor", layout="centered")
 
@@ -10,10 +11,18 @@ st.write("Enter the delivery details below to predict the estimated delivery tim
 
 @st.cache_resource
 def load_assets():
-    with open('best_rf_model.pkl', 'rb') as m_file:
+    # Automatically determines the full directory path where app.py lives
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    
+    # Creates reliable, absolute system paths to your pickle files
+    model_path = os.path.join(BASE_DIR, 'best_rf_model.pkl')
+    encoder_path = os.path.join(BASE_DIR, 'label_encoder.pkl')
+    
+    with open(model_path, 'rb') as m_file:
         model = pickle.load(m_file)
-    with open('label_encoder.pkl', 'rb') as e_file:
+    with open(encoder_path, 'rb') as e_file:
         encoder = pickle.load(e_file)
+        
     return model, encoder
 
 try:
@@ -36,7 +45,6 @@ with col2:
 if st.button("Predict Delivery Time", use_container_width=True):
     try:
         # Ensure the string encoding maps to what the model expects
-        # We can map categories manually using the classes_ found in the encoder
         weather_mapping = {val: idx for idx, val in enumerate(['Clear', 'Foggy', 'Rainy', 'Snowy', 'Windy'])}
         traffic_mapping = {val: idx for idx, val in enumerate(['High', 'Low', 'Medium'])}
 
