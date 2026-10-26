@@ -2,14 +2,18 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import pickle
+import os
 
 # Set Page configuration
 st.set_page_config(page_title="Loan Default Risk Predictor", layout="centered")
 
-# Load saved artifacts
+# Load saved artifacts using a reliable absolute path
 @st.cache_resource
 def load_artifacts():
-    with open('loan_nb_model.pkl', 'rb') as f:
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    model_path = os.path.join(BASE_DIR, 'loan_nb_model.pkl')
+    
+    with open(model_path, 'rb') as f:
         return pickle.load(f)
 
 try:
@@ -85,5 +89,3 @@ if submit_button:
         st.error(f"🚨 Prediction: **High Risk of Default** (Probability: {prediction_proba[1]:.2%})")
     else:
         st.success(f"✅ Prediction: **Low Risk of Default** (Probability of Default: {prediction_proba[1]:.2%})")
-
-
