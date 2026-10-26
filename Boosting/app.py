@@ -1,9 +1,9 @@
-
 import streamlit as st
 import json
 import numpy as np
 import pandas as pd
 import xgboost as xgb
+from pathlib import Path
 
 # Page config
 st.set_page_config(page_title="Exam Score Predictor", page_icon="🎓", layout="centered")
@@ -11,16 +11,28 @@ st.set_page_config(page_title="Exam Score Predictor", page_icon="🎓", layout="
 st.title("🎓 Student Exam Score Predictor")
 st.write("Enter student details below to predict their final exam score using the robust JSON-serialized model.")
 
+# Dynamically find the absolute path where app.py resides
+BASE_DIR = Path(__file__).resolve().parent
+MODEL_PATH = BASE_DIR / "xgb_model.json"
+ENCODER_PATH = BASE_DIR / "label_encoders.json"
+
 # Load JSON artifacts safely
 @st.cache_resource
 def load_artifacts():
-    # Load XGBoost JSON model
+    # Verify files exist before loading to catch structural errors early
+    if not MODEL_PATH.exists():
+        raise FileNotFoundError(f"Missing XGBoost model at: {MODEL_PATH}")
+    if not ENCODER_PATH.exists():
+        raise FileNotFoundError(f"Missing Label Encoders configuration at: {ENCODER_PATH}")
+
+    # Load XGBoost JSON model using absolute path string
     model = xgb.XGBRegressor()
-    model.load_model('xgb_model.json')
+    model.load_model(str(MODEL_PATH))
     
-    # Load Label Encoders configuration
-    with open('label_encoders.json', 'r') as json_file:
+    # Load Label Encoders configuration using absolute path
+    with open(ENCODER_PATH, 'r') as json_file:
         encoders_config = json.load(json_file)
+        
     return model, encoders_config
 
 try:
