@@ -1,0 +1,42 @@
+{
+    "gender": [
+        "female",
+        "male",
+        "other"
+    ],
+    "course": [
+        "b.com",
+        "b.sc",
+        "b.tech",
+        "ba",
+        "bba",
+        "bca",
+        "diploma"
+    ],
+    "internet_access": [
+        "no",
+        "yes"
+    ],
+    "sleep_quality": [
+        "average",
+        "good",
+        "poor"
+    ],
+    "study_method": [
+        "coaching",
+        "group study",
+        "mixed",
+        "online videos",
+        "self-study"
+    ],
+    "facility_rating": [
+        "high",
+        "low",
+        "medium"
+    ],
+    "exam_difficulty": [
+        "easy",
+        "hard",
+        "moderate"
+    ]
+}
