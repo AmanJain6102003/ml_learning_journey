@@ -1,17 +1,20 @@
-
 import streamlit as st
 import pickle
 import numpy as np
+import os
 
 st.set_page_config(page_title="Disease Risk Predictor", page_icon="🩺")
 
 st.title("🩺 Disease Risk Predictor")
 st.write("Enter your health indicators to predict disease risk.")
 
-# Load model
+# Load model using an absolute path relative to this script
 @st.cache_resource
 def load_model():
-    with open("best_decision_tree_model.pkl", "rb") as file:
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    model_path = os.path.join(BASE_DIR, "best_decision_tree_model.pkl")
+    
+    with open(model_path, "rb") as file:
         return pickle.load(file)
 
 try:
